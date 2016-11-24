@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- mapper中定义的是mybatis对某些业务的sql语句 -->
+<mapper namespace="com.sso.server.mapper.IUserMapper">
+	<!--得到用户其他信息 -->
+	<select id="getUserInfo" parameterType="string"
+		resultType="com.sso.server.entity.UserOtherInfo">
+		select userid,username,useraccount,phone,regtime from userinfo WHERE
+		useraccount=#{_useraccount} or phone=#{_useraccount}
+	</select>
+	<!-- 根据用户名得到密码 -->
+	<select id="getpwdbyuseraccount" resultType="string"
+		parameterType="string">
+		select password from userinfo where
+		useraccount=#{_useraccount} or phone=#{_useraccount}
+	</select>
+	<!-- 将lt写入数据库 -->
+	<update id="setLoginToken" parameterType="hashmap">
+		update userinfo set
+		logintoken=#{logintoken} where useraccount=#{useraccount} or phone
+		=#{useraccount}
+	</update>
+	<!--得到用户其他信息 -->
+	<select id="getUserInfoByLogintoken" parameterType="string"
+		resultType="com.sso.server.entity.UserOtherInfo">
+		select userid,username,useraccount,phone,regtime from userinfo WHERE
+		logintoken=#{_logintoken}
+	</select>
+</mapper>
